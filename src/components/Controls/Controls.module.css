@@ -1,0 +1,243 @@
+.numberPad {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 8px;
+  max-width: 100%;
+}
+
+.numberButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 4px;
+  background-color: var(--bg-cell);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+  min-width: 40px;
+  min-height: 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Ink splash on hover */
+.numberButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, var(--accent) 0%, transparent 70%);
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.numberButton:hover:not(:disabled)::before {
+  opacity: 0.08;
+  transform: scale(2);
+}
+
+.numberButton:hover:not(:disabled) {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.numberButton:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.numberButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.numberButton.complete {
+  background: linear-gradient(135deg, var(--highlight-same), rgba(76, 111, 82, 0.2));
+  border-color: var(--zen-green);
+}
+
+.numberButton.complete .number {
+  color: var(--zen-green);
+}
+
+.number {
+  font-family: var(--font-numbers);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  line-height: 1;
+  position: relative;
+  z-index: 1;
+  transition: transform var(--transition-fast);
+}
+
+.numberButton:hover:not(:disabled) .number {
+  transform: scale(1.1);
+}
+
+.count {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+  opacity: 0.7;
+  position: relative;
+  z-index: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.actionButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  background-color: var(--bg-cell);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  transition: all var(--transition-normal);
+  min-width: 70px;
+  position: relative;
+  overflow: hidden;
+}
+
+.actionButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.actionButton:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.actionButton:hover:not(:disabled)::before {
+  opacity: 0.05;
+}
+
+.actionButton:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.actionButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.actionButton.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  border-color: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-md), 0 0 20px var(--accent-glow);
+}
+
+.actionButton.active::before {
+  opacity: 0;
+}
+
+.actionButton.active:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 30px var(--accent-glow);
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  position: relative;
+  z-index: 1;
+  transition: transform var(--transition-fast);
+}
+
+.actionButton:hover:not(:disabled) .icon {
+  transform: scale(1.1);
+}
+
+.actionButton.active .icon {
+  animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+/* Notes mode indicator pulse */
+.actionButton.active::after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 6px;
+  height: 6px;
+  background: white;
+  border-radius: 50%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+@media (max-width: 480px) {
+  .numberPad {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .numberButton {
+    min-width: 36px;
+    min-height: 48px;
+    padding: 8px 2px;
+  }
+
+  .number {
+    font-size: 1.2rem;
+  }
+
+  .count {
+    font-size: 0.6rem;
+  }
+
+  .actions {
+    gap: 6px;
+  }
+
+  .actionButton {
+    padding: 10px 14px;
+    min-width: 60px;
+    font-size: 0.65rem;
+  }
+
+  .icon {
+    width: 20px;
+    height: 20px;
+  }
+}

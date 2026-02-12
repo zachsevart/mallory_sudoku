@@ -1,0 +1,214 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+}
+
+.title {
+  font-family: var(--font-numbers);
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.1em;
+}
+
+.timer {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--bg-cell);
+  padding: 10px 20px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
+}
+
+.timer:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.timerButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.timerButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  border-radius: 50%;
+}
+
+.timerButton:hover {
+  background-color: var(--accent);
+  color: white;
+  transform: scale(1.1);
+}
+
+.timerButton:hover::before {
+  opacity: 1;
+}
+
+.timerButton:active {
+  transform: scale(0.95);
+}
+
+.timerIcon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.time {
+  font-family: var(--font-numbers);
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 70px;
+  letter-spacing: 0.05em;
+}
+
+/* Paused state */
+.timer.paused {
+  opacity: 0.7;
+}
+
+.timer.paused .time {
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+.difficultySelect {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.difficultyButton {
+  padding: 8px 16px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: var(--bg-cell);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.difficultyButton::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.difficultyButton:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.difficultyButton:hover::before {
+  opacity: 0.05;
+}
+
+.difficultyButton:active {
+  transform: translateY(0);
+}
+
+.difficultyButton.active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+  border-color: var(--accent);
+  color: white;
+  box-shadow: var(--shadow-md);
+}
+
+.difficultyButton.active::before {
+  opacity: 0;
+}
+
+/* Difficulty colors for active state */
+.difficultyButton[data-difficulty="easy"].active {
+  background: linear-gradient(135deg, #4c6f52, #3d5842);
+}
+
+.difficultyButton[data-difficulty="medium"].active {
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+}
+
+.difficultyButton[data-difficulty="hard"].active {
+  background: linear-gradient(135deg, #b85c38, #943d22);
+}
+
+.difficultyButton[data-difficulty="expert"].active {
+  background: linear-gradient(135deg, #8b2635, #6d1f2a);
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .timer {
+    padding: 8px 16px;
+  }
+
+  .time {
+    font-size: 1.2rem;
+    min-width: 60px;
+  }
+
+  .buttons {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .difficultyButton {
+    padding: 6px 12px;
+    font-size: 0.75rem;
+  }
+}
