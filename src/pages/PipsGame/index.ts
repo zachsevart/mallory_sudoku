@@ -1,0 +1,1 @@
+export { PipsGame } from './PipsGame';

@@ -1,0 +1,481 @@
+:root {
+  --pips-cell-size: min(14vw, 72px);
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 40px;
+  animation: pipsLoad 0.5s ease-out;
+}
+
+@keyframes pipsLoad {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.backButton {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-cell);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all var(--transition-normal);
+}
+
+.backButton:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateX(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.title {
+  font-family: var(--font-numbers);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.headerRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.timer {
+  font-family: var(--font-numbers);
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  background: var(--bg-cell);
+  padding: 6px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-light);
+}
+
+.placedCount {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* Board */
+.board {
+  display: grid;
+  gap: 2px;
+  padding: 4px;
+  background: var(--border-dark);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+
+.cell.inactive {
+  visibility: hidden;
+  pointer-events: none;
+  background: transparent;
+}
+
+.cell:hover {
+  filter: brightness(0.95);
+}
+
+.cell.occupied {
+  cursor: pointer;
+}
+
+.cell.violated {
+  box-shadow: inset 0 0 0 2px var(--text-error);
+}
+
+.cell.dropTarget {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 3px,
+    rgba(76, 111, 82, 0.18) 3px,
+    rgba(76, 111, 82, 0.18) 6px
+  );
+  box-shadow: inset 0 0 0 2px rgba(76, 111, 82, 0.5);
+  cursor: crosshair;
+  filter: brightness(1.05);
+}
+
+/* Domino connection borders */
+.cell.dominoLeft {
+  border-right: none;
+  border-radius: var(--radius-sm) 0 0 var(--radius-sm);
+  background-image: linear-gradient(90deg, transparent 85%, rgba(44, 36, 24, 0.08));
+}
+
+.cell.dominoRight {
+  border-left: none;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background-image: linear-gradient(270deg, transparent 85%, rgba(44, 36, 24, 0.08));
+}
+
+.cell.dominoTop {
+  border-bottom: none;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+}
+
+.cell.dominoBottom {
+  border-top: none;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+}
+
+/* Constraint badge */
+.constraintBadge {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  font-family: var(--font-numbers);
+  font-size: calc(var(--pips-cell-size) * 0.22);
+  font-weight: 700;
+  color: rgba(26, 21, 16, 0.6);
+  line-height: 1;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Pip dots */
+.pipsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 60%;
+  height: 60%;
+  gap: 1px;
+}
+
+.pipDot {
+  display: block;
+  border-radius: 50%;
+}
+
+.pipDot.filled {
+  background: var(--text-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+
+/* Controls */
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.actionBtn {
+  padding: 10px 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  background: var(--bg-cell);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  transition: all var(--transition-normal);
+}
+
+.actionBtn:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+.actionBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.newGameBtn {
+  background: linear-gradient(135deg, var(--zen-green), #3d5842);
+  border-color: var(--zen-green);
+  color: white;
+}
+
+.newGameBtn:hover:not(:disabled) {
+  color: white;
+  border-color: var(--zen-green);
+  box-shadow: var(--shadow-md), 0 0 15px rgba(76, 111, 82, 0.3);
+}
+
+/* Domino Tray */
+.tray {
+  width: 100%;
+  text-align: center;
+}
+
+.trayTitle {
+  font-family: var(--font-numbers);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.trayHint {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0 0 16px;
+  opacity: 0.7;
+}
+
+.trayGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.dominoTile {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 8px;
+  background: var(--bg-cell);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-md);
+  cursor: grab;
+  transition: all var(--transition-normal);
+  position: relative;
+  min-width: 80px;
+  min-height: 44px;
+  touch-action: none;
+}
+
+.dominoTile.dragging {
+  opacity: 0.3;
+  cursor: grabbing;
+}
+
+.dominoTile.dragOverlay {
+  opacity: 0.9;
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(76, 111, 82, 0.3);
+  border-color: var(--zen-green);
+  cursor: grabbing;
+  pointer-events: none;
+}
+
+.dominoTile.vertical {
+  flex-direction: column;
+  min-width: 44px;
+  min-height: 80px;
+}
+
+.dominoTile:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.dominoTile.selected {
+  border-color: var(--zen-green);
+  box-shadow: 0 0 0 3px rgba(76, 111, 82, 0.3), var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.dominoHalf {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+}
+
+.dominoDivider {
+  width: 2px;
+  height: 24px;
+  background: var(--border-medium);
+  border-radius: 1px;
+  margin: 0 2px;
+}
+
+.dominoTile.vertical .dominoDivider {
+  width: 24px;
+  height: 2px;
+  margin: 2px 0;
+}
+
+.rotateBtn {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: 50%;
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  opacity: 0;
+  transition: all var(--transition-fast);
+}
+
+.dominoTile:hover .rotateBtn {
+  opacity: 1;
+}
+
+.rotateBtn:hover {
+  background: var(--accent);
+  color: white;
+  border-color: var(--accent);
+}
+
+/* Win overlay */
+.winOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+  animation: winFadeIn 0.3s ease;
+}
+
+@keyframes winFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.winModal {
+  background: linear-gradient(180deg, var(--bg-cell) 0%, var(--bg-secondary) 100%);
+  border-radius: var(--radius-lg);
+  padding: 40px 36px;
+  text-align: center;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: var(--shadow-lg), 0 0 40px rgba(76, 111, 82, 0.2);
+  animation: winSlide 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes winSlide {
+  from { transform: scale(0.8) translateY(20px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.winTrophy {
+  font-size: 3.5rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.winModal h2 {
+  font-family: var(--font-numbers);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 16px;
+  color: var(--text-primary);
+}
+
+.winTime {
+  font-family: var(--font-numbers);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--zen-green);
+  margin: 0 0 24px;
+}
+
+.winButton {
+  width: 100%;
+  padding: 14px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--zen-green), #3d5842);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-normal);
+}
+
+.winButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg), 0 0 20px rgba(76, 111, 82, 0.3);
+}
+
+@media (max-width: 480px) {
+  :root {
+    --pips-cell-size: min(16vw, 60px);
+  }
+
+  .app {
+    padding: 16px 12px 28px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .backButton {
+    position: static;
+    margin-bottom: 8px;
+    align-self: flex-start;
+  }
+
+  .header {
+    align-items: center;
+  }
+
+  .dominoTile {
+    min-width: 70px;
+    padding: 6px;
+  }
+
+  .dominoHalf {
+    width: 28px;
+    height: 28px;
+  }
+}

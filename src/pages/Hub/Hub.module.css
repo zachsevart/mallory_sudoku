@@ -1,0 +1,217 @@
+.hub {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 24px;
+  animation: hubFadeIn 0.5s ease;
+}
+
+@keyframes hubFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+.titleContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-family: var(--font-numbers);
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.5;
+}
+
+.titleDecor {
+  width: 28px;
+  height: 28px;
+  opacity: 0.25;
+  flex-shrink: 0;
+}
+
+.titleDecor.right {
+  transform: scaleX(-1);
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin: 0;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.main {
+  width: 100%;
+  max-width: 700px;
+  flex: 1;
+}
+
+.gamesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 28px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 28px 28px;
+  background: var(--bg-cell);
+  border: 2px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--card-accent, var(--accent));
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.card:hover {
+  border-color: var(--card-accent, var(--accent));
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card:hover::before {
+  opacity: 0.04;
+}
+
+.card:active {
+  transform: translateY(-2px);
+}
+
+.cardIcon {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--card-accent, var(--accent));
+  position: relative;
+  z-index: 1;
+  transition: transform var(--transition-normal);
+}
+
+.card:hover .cardIcon {
+  transform: scale(1.1);
+}
+
+.cardIcon svg {
+  width: 60px;
+  height: 60px;
+}
+
+.cardTitle {
+  font-family: var(--font-numbers);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  position: relative;
+  z-index: 1;
+  letter-spacing: 0.05em;
+}
+
+.cardDesc {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+}
+
+.playLabel {
+  display: inline-block;
+  padding: 8px 24px;
+  background: var(--card-accent, var(--accent));
+  color: var(--bg-primary);
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  transition: all var(--transition-normal);
+  position: relative;
+  z-index: 1;
+}
+
+.card:hover .playLabel {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.footer {
+  margin-top: 64px;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  opacity: 0.5;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 600px) {
+  .hub {
+    padding: 32px 16px;
+  }
+
+  .title {
+    font-size: 2.2rem;
+    letter-spacing: 0.1em;
+  }
+
+  .titleDecor {
+    display: none;
+  }
+
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .gamesGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
